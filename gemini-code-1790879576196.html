@@ -1,0 +1,470 @@
+<!-- ARQUIVO MESTRE v4 - Portal Estudantil (Com Horários Reais do PDF) -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portal Estudantil - EREM José Vilela</title>
+  <style>
+    :root {
+      --vermelho: #E40303;
+      --laranja: #FF8C00;
+      --amarelo: #FFED00;
+      --verde: #008026;
+      --azul: #24408E;
+      --roxo: #732982;
+      --fundo: #F8F9FA;
+      --texto: #111111;
+      --branco: #FFFFFF;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--fundo);
+      color: var(--texto);
+      line-height: 1.5;
+    }
+
+    .faixa-lgbt {
+      display: flex;
+      height: 10px;
+      width: 100%;
+    }
+    .faixa-lgbt div { flex: 1; }
+    .f-1 { background: var(--vermelho); }
+    .f-2 { background: var(--laranja); }
+    .f-3 { background: var(--amarelo); }
+    .f-4 { background: var(--verde); }
+    .f-5 { background: var(--azul); }
+    .f-6 { background: var(--roxo); }
+
+    .tela { display: none; }
+    .tela.ativa { display: block; }
+
+    #tela-capa {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 0 16px;
+      text-align: center;
+    }
+
+    .card-capa {
+      background: var(--branco);
+      padding: 40px 24px;
+      border: 4px solid var(--texto);
+      box-shadow: 8px 8px 0px var(--texto);
+    }
+
+    .card-capa h1 {
+      font-size: 32px;
+      color: var(--azul);
+      margin-bottom: 16px;
+    }
+
+    .card-capa p {
+      font-size: 18px;
+      color: #333;
+      margin-bottom: 24px;
+    }
+
+    .btn-entrar {
+      min-height: 52px;
+      padding: 0 32px;
+      font-size: 18px;
+      font-weight: bold;
+      background: var(--verde);
+      color: var(--branco);
+      border: 3px solid var(--texto);
+      box-shadow: 4px 4px 0px var(--texto);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-entrar:hover, .btn-entrar:focus {
+      outline: none;
+      transform: translateY(-2px);
+      box-shadow: 6px 6px 0px var(--texto);
+      background: #00661F;
+    }
+
+    header {
+      background: var(--branco);
+      padding: 24px 16px;
+      border-bottom: 4px solid var(--azul);
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 28px;
+      color: var(--azul);
+      margin-bottom: 8px;
+    }
+
+    nav {
+      max-width: 900px;
+      margin: 16px auto;
+      padding: 0 16px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 8px;
+    }
+
+    .btn-aba {
+      min-height: 48px;
+      padding: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      border: 3px solid transparent;
+      background: #E9ECEF;
+      color: var(--texto);
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .btn-aba.active[data-aba="aulas"] { background: var(--azul); color: var(--branco); }
+    .btn-aba.active[data-aba="esportes"] { background: var(--laranja); color: var(--texto); }
+    .btn-aba.active[data-aba="cardapio"] { background: var(--verde); color: var(--branco); }
+    .btn-aba.active[data-aba="eventos"] { background: var(--roxo); color: var(--branco); }
+
+    main {
+      max-width: 900px;
+      margin: 0 auto 32px;
+      padding: 0 16px;
+    }
+
+    .painel {
+      display: none;
+      background: var(--branco);
+      padding: 24px;
+      border: 3px solid var(--texto);
+      box-shadow: 6px 6px 0px var(--texto);
+    }
+
+    .painel.ativo { display: block; }
+
+    .painel h2 {
+      font-size: 24px;
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 3px solid var(--texto);
+    }
+
+    .seletor-turmas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 20px;
+      background: #E9ECEF;
+      padding: 12px;
+      border: 2px solid var(--texto);
+    }
+
+    .btn-turma {
+      min-height: 44px;
+      padding: 8px 16px;
+      font-size: 15px;
+      font-weight: bold;
+      background: var(--branco);
+      border: 2px solid var(--texto);
+      cursor: pointer;
+    }
+
+    .btn-turma.ativo {
+      background: var(--azul);
+      color: var(--branco);
+    }
+
+    .grid-dias {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .bloco-dia {
+      border: 2px solid var(--texto);
+      background: #F1F3F5;
+      padding: 16px;
+      border-left: 8px solid var(--azul);
+    }
+
+    .bloco-dia h3 {
+      font-size: 18px;
+      margin-bottom: 12px;
+      padding-bottom: 4px;
+      border-bottom: 2px dashed #ccc;
+      color: var(--azul);
+    }
+
+    .bloco-dia ul {
+      list-style: none;
+      font-size: 14px;
+    }
+
+    .bloco-dia li {
+      margin-bottom: 8px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+
+    .bloco-dia li strong {
+      display: block;
+      color: #333;
+    }
+
+    .bloco-card {
+      padding: 16px;
+      border: 2px solid var(--texto);
+      background: #F1F3F5;
+      margin-bottom: 16px;
+    }
+
+    .b-esportes { border-left: 8px solid var(--laranja); }
+    .b-cardapio { border-left: 8px solid var(--verde); }
+    .b-eventos { border-left: 8px solid var(--roxo); }
+
+    footer {
+      text-align: center;
+      padding: 24px;
+      background: var(--texto);
+      color: var(--branco);
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="faixa-lgbt">
+    <div class="f-1"></div><div class="f-2"></div><div class="f-3"></div>
+    <div class="f-4"></div><div class="f-5"></div><div class="f-6"></div>
+  </div>
+
+  <!-- TELA CAPA -->
+  <div id="tela-capa" class="tela ativa">
+    <div class="card-capa">
+      <h1>Portal EREM José Vilela</h1>
+      <p>Acesse os horários oficiais das aulas (Integral até 16:40), refeições, eventos e esportes sem desinformação!</p>
+      <button class="btn-entrar" onclick="entrarNoPortal()">Ver Horários e Informações →</button>
+    </div>
+  </div>
+
+  <!-- TELA PRINCIPAL -->
+  <div id="tela-principal" class="tela">
+    <header>
+      <h1>EREM José Vilela - Portal Estudantil</h1>
+      <p>Informações atualizadas para todos os estudantes</p>
+    </header>
+
+    <nav>
+      <button class="btn-aba active" data-aba="aulas" onclick="mostrarAba('aulas')">Aulas</button>
+      <button class="btn-aba" data-aba="esportes" onclick="mostrarAba('esportes')">Esportes</button>
+      <button class="btn-aba" data-aba="cardapio" onclick="mostrarAba('cardapio')">Refeições</button>
+      <button class="btn-aba" data-aba="eventos" onclick="mostrarAba('eventos')">Eventos</button>
+    </nav>
+
+    <main>
+      <!-- Painel Aulas -->
+      <section id="aulas" class="painel ativo">
+        <h2 style="color: var(--azul);">Horários das Aulas da Semana</h2>
+        
+        <p style="font-weight: bold; margin-bottom: 8px;">CLIQUE NA SUA TURMA PARA VER O HORÁRIO:</p>
+        <div class="seletor-turmas">
+          <button class="btn-turma ativo" onclick="carregarHorario('1A', this)">1º A</button>
+          <button class="btn-turma" onclick="carregarHorario('1B', this)">1º B</button>
+          <button class="btn-turma" onclick="carregarHorario('1C', this)">1º C</button>
+          <button class="btn-turma" onclick="carregarHorario('1D', this)">1º D</button>
+          <button class="btn-turma" onclick="carregarHorario('2A', this)">2º A</button>
+          <button class="btn-turma" onclick="carregarHorario('2B', this)">2º B</button>
+          <button class="btn-turma" onclick="carregarHorario('2C', this)">2º C</button>
+          <button class="btn-turma" onclick="carregarHorario('3A', this)">3º A</button>
+          <button class="btn-turma" onclick="carregarHorario('3B', this)">3º B</button>
+        </div>
+
+        <div id="grade-semana" class="grid-dias">
+          <!-- Grade injetada dinamicamente via JS -->
+        </div>
+      </section>
+
+      <!-- Painel Esportes -->
+      <section id="esportes" class="painel">
+        <h2 style="color: var(--laranja);">Dias de Cada Esporte</h2>
+        <div class="bloco-card b-esportes">
+          <h3>Futsal</h3>
+          <p>Segundas e Quartas — 16:40 às 18:00</p>
+        </div>
+        <div class="bloco-card b-esportes">
+          <h3>Basquetebol</h3>
+          <p>Terças e Quintas — 16:40 às 18:00</p>
+        </div>
+        <div class="bloco-card b-esportes">
+          <h3>Vôlei</h3>
+          <p>Sextas-feiras — 16:40 às 18:00</p>
+        </div>
+      </section>
+
+      <!-- Painel Refeições -->
+      <section id="cardapio" class="painel">
+        <h2 style="color: var(--verde);">Cardápio da Semana</h2>
+        <div class="bloco-card b-cardapio">
+          <h3>Lanche da Manhã (10:00)</h3>
+          <p>Frutas da época, pão recheado e suco.</p>
+        </div>
+        <div class="bloco-card b-cardapio">
+          <h3>Almoço (12:00)</h3>
+          <p>Arroz, feijão, proteína do dia, salada e sobremesa.</p>
+        </div>
+        <div class="bloco-card b-cardapio">
+          <h3>Lanche da Tarde (14:40)</h3>
+          <p>Biscoitos e suco/iogurte.</p>
+        </div>
+      </section>
+
+      <!-- Painel Eventos -->
+      <section id="eventos" class="painel">
+        <h2 style="color: var(--roxo);">Eventos Mensais</h2>
+        <div class="bloco-card b-eventos">
+          <h3>15 deste Mês</h3>
+          <p><strong>Feira de Ciências e Tecnologia</strong> - Exposição das turmas no pátio.</p>
+        </div>
+        <div class="bloco-card b-eventos">
+          <h3>28 deste Mês</h3>
+          <p><strong>Torneio Interclasses</strong> - Jogos a partir das 16:40.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>EREM José Vilela • Informação Acessível e Organizada.</p>
+    </footer>
+  </div>
+
+  <script>
+    // DADOS OFICIAIS EXTRAÍDOS DO PDF DO HORÁRIO GERAL DA EREM JOSÉ VILELA
+    const dadosHorarios = {
+      "1A": {
+        "Segunda": ["Corpo, Arte e Mov. (Alexandre)", "Ed. Física (Alexandre)", "Matemática (Sena)", "Língua Portuguesa (Jandira)", "História (Pablo)", "Informática SENAC", "Informática SENAC", "Informática SENAC", "Informática SENAC"],
+        "Terça": ["Física (Fernando)", "Sociologia (Severino)", "Língua Portuguesa (Jandira)", "Matemática Básica (Severino)", "Língua Portuguesa (Jandira)", "Língua Portuguesa (Paulo)", "Física (Severino)", "Sociologia (Paulo)", "Filosofia (Paulo)"],
+        "Quarta": ["Letramento Ling. (Fernando)", "Invest. e Model. (Sena)", "Arte (Jandira)", "Biologia (Severino)", "Matemática (Sena)", "Informática SENAC", "Informática SENAC", "Informática SENAC", "Informática SENAC"],
+        "Quinta": ["Geografia (Pablo)", "Arte (João)", "Aprof. Matemát. (Sena)", "Matemática (Sena)", "Cultura Digital (Zenaide)", "História (Pablo)", "Biologia (Diogo)", "Filosofia (Fabian)", "Letramento Ling. (Jilvan)"],
+        "Sexta": ["História (Paulo)", "Física (Severino)", "Língua Portuguesa (Jandira)", "Estudo Orientado (Marta)", "Leitura e Prod. (Jandira)", "Informática SENAC", "Informática SENAC", "Física (Severino)", "Proj., Trab. e Soc. (Dairla)"]
+      },
+      "1B": {
+        "Segunda": ["Cultura Digital (Zenaide)", "Matemática (Sena)", "Invest. e Model. (Zenaide)", "Corpo, Arte e Mov. (Severino)", "Matemática (Fernando)", "Arte (João)", "História (Marta)", "Aprof. Ling. (Jilvan)", "Matemática Básica (Paulo)"],
+        "Terça": ["Ed. Física (Paulo)", "Química (Marciano)", "Invest. e Model. (Fernando)", "Língua Portuguesa (Jandira)", "Aprof. Humanas (Alexandre)", "Inglês (Diogo)", "Geografia (Jilvan)", "Geografia (Pablio)", "Geografia (Pablio)"],
+        "Quarta": ["Biologia (Jilvan)", "Cultura Digital (Zenaide)", "Letramento Ling. (Zenaide)", "Biologia (Zenaide)", "Aprof. Ling. (Jilvan)", "História (Alexandre)", "Física (Paulo)", "Biologia (Tatiane)", "Projeto, Trab. e Soc. (Dairla)"],
+        "Quinta": ["Língua Portuguesa (Fernando)", "História (Paulo)", "Invest. e Model. (Tatiane)", "Química (Marciano)", "Aprof. Natureza (João)", "Cultura Digital (Marciano)", "Matemática Básica (Alexandre)", "Matemática (Sena)", "Inglês (Marta)"],
+        "Sexta": ["Física (Severino)", "Projeto, Trab. e Soc. (Fernando)", "Matemática (Sena)", "Matemática Básica (Severino)", "Física (Severino)", "Geografia (Pablo)", "Filosofia (Diogo)", "Matemática Básica (Fabian)", "Aprof. Matemát. (Marciano)"]
+      },
+      "1C": {
+        "Segunda": ["Aprof. Humanas (Pablo)", "Língua Portuguesa (Sena)", "Química (Marta)", "Cultura Digital (Marciano)", "Invest. e Model. (Severino)", "Informática SENAC", "Informática SENAC", "Corpo, Arte e Mov. (João)", "Inglês (Jarbas)"],
+        "Terça": ["Corpo, Arte e Mov. (Alexandre)", "Projeto, Trab. e Soc. (Dairla)", "Inglês (Marta)", "Invest. e Model. (Zenaide)", "Aprof. Lingua. (Fernando)", "Matemática Básica (Severino)", "Letramento Ling. (Jilvan)", "História de PE (Fabi)", "Química (Marciano)"],
+        "Quarta": ["Matemática (Tatiane)", "Língua Portuguesa (Fabian)", "Biologia (Marciano)", "Aprof. Humanas (Jandira)", "Língua Portuguesa (Fernando)", "Logística (Jarbas)", "Logística (Jarbas)", "Projeto, Trab. e Soc. (Dairla)", "Sociologia (Jilvan)"],
+        "Quinta": ["Química (Marciano)", "História de PE (Fernando)", "Matemática (Sena)", "Biologia (Fabian)", "Corpo, Arte e Mov. (Jandira)", "Estudo Orientado (Marta)", "Aprof. Ling. Nat. (Diogo)", "Química (Marciano)", "SOCIOLOGIA (Fabian)"],
+        "Sexta": ["Língua Portuguesa (Fernando)", "Matemática (Pablio)", "Língua Portuguesa (Dairla)", "Corpo, Arte e Mov. (João)", "Língua Portuguesa (Jandira)", "Letramento Ling. (Jilvan)", "Geografia (Diogo)", "Letramento Ling. (Jilvan)", "Matemática (Sena)"]
+      },
+      "1D": {
+        "Segunda": ["Língua Portuguesa (Sena)", "Invest. e Model. (João)", "Estudo Orientado (Marciano)", "Aprof. Lingua. (Diogo)", "DAIRLA (Dairla)", "Inglês (Paulo)", "Aprof. Ling. Nat. (Fabi)", "GEOGRAFIA (Diogo)", "ALEXANDRE (Alexandre)"],
+        "Terça": ["SOCIOLOGIA (João)", "Cultura Digital (Marciano)", "Letramento Ling. (Jilvan)", "Geografia (Pablio)", "Aprof. Lingua. (João)", "História (Pablio)", "Corpo, Arte e Mov. (João)", "Estudo Orientado (Fabi)", "Cultura Digital (Marta)"],
+        "Quarta": ["Ed. Física (Alexandre)", "ED FÍSICA (Alexandre)", "Projeto, Trab. e Soc. (Alexandre)", "ESTUDO ORIENTADO (Dairla)", "Inglês (Marta)", "HISTÓRIA DE PE (Diogo)", "PROJETO TRAB. SOC. (Severino)", "BIOLOGIA (DaIrla)", "Cultura Digital (Jilvan)"],
+        "Quinta": ["HISTÓRIA (Diogo)", "MATEMÁTICA (Diogo)", "ESTUDO ORIENTADO (Marciano)", "LÍNGUA PORTUGUESA (ZENAIDE)", "LEITURA E PROD. (Marciano)", "JILVAN (Jilvan)", "HISTÓRIA (Marciano)", "APROF HUMANAS (Marciano)", "QUÍMICA (Diogo)"],
+        "Sexta": ["APROF HUMANAS (Pablio)", "LEITURA E PROD. (Jandira)", "GEOGRAFIA (Dairla)", "LÍNGUA PORTUGUESA (Jandira)", "QUÍMICA (SeveRino)", "FILOSOFIA (Diogo)", "INFORMÁTICA SENAC", "INFORMÁTICA SENAC", "Aprof. Natureza (Marciano)"]
+      },
+      "2A": {
+        "Segunda": ["HISTÓRIA (Pablo)", "FÍSICA (Fernando)", "HISTÓRIA (Fernando)", "BIOLOGIA (Severino)", "ESTUDO ORIENTADO (ZENAIDE)", "ESTUDO ORIENTADO (Marta)", "LOGÍSTICA (Jarbas)", "MARTA (Marta)", "FABI (Fabi)"],
+        "Terça": ["LÍNGUA PORTUGUESA (Jandira)", "Aprof. Ling. Nat. (Jilvan)", "PROJETO TRAB. SOC. (Dairla)", "PROJETO TRAB. SOC. (Dairla)", "JILVAN (Jilvan)", "PROJETO TRAB. SOC. (Dairla)", "BIOLOGIA (Jilvan)", "MARCIANO (Marciano)", "ESTUDO ORIENTADO (Fernando)"],
+        "Quarta": ["MATEMÁTICA (Sena)", "SEVERINO (Severino)", "FÍSICA (Fabi)", "INVESTIGAÇÃO E MODEL. (Jandira)", "BIOLOGIA (Marta)", "INGLÊS (Marta)", "DAIRLA (Dairla)", "QUÍMICA (Marciano)", "QUÍMICA (Marciano)"],
+        "Quinta": ["ESTUDO ORIENTADO (Marciano)", "LÍNGUA PORTUGUESA (Fernando)", "CULTURA DIGITAL (Zenaide)", "ESTUDO ORIENTADO (Fabian)", "ESTUDO ORIENTADO (Fabian)", "INGLÊS (Pablo)", "MATEMÁTICA BÁSICA (Paulo)", "SOCIOLOGIA (Alexandre)", "LETRAMENTO LINGUÍSTICO (Jilvan)"],
+        "Sexta": ["PROJETO TRAB. SOC. (Jilvan)", "LEITURA E PROD. (Jandira)", "QUÍMICA (João)", "GEOGRAFIA (Alexandre)", "CULTURA DIGITAL (Marciano)", "MATEMÁTICA (Fabian)", "MATEMÁTICA BÁSICA (Dairla)", "MATEMÁTICA BÁSICA (Diogo)", "CULTURA DIGITAL (Jilvan)"]
+      },
+      "2B": {
+        "Segunda": ["ARTE (Fernando)", "INVESTIGAÇÃO E MODEL. (Zenaide)", "CULTURA DIGITAL (Marciano)", "CORPO, ARTE E MOV. (SENA)", "CORPO, ARTE E MOV. (DAIRLA)", "INGLÊS (Alexandre)", "Aprof. Lingua. (Alexandre)", "ED FÍSICA (Marta)", "SOCIOLOGIA (Diogo)"],
+        "Terça": ["GEOGRAFIA (Marciano)", "LÍNGUA PORTUGUESA (Fernando)", "QUÍMICA (Dairla)", "QUÍMICA (Dairla)", "DAIRLA (Dairla)", "QUÍMICA (Marciano)", "INGLÊS (Fabi)", "APROF LINGUAGENS (Marta)", "MATEMÁTICA BÁSICA (Dairla)"] ,
+        "Quarta": ["MATEMÁTICA BÁSICA (Zenaide)", "LETRAMENTO LING. (Zenaide)", "INVESTIGAÇÃO E MODEL. (Marciano)", "MATEMÁTICA (Dairla)", "PROJETO TRAB. SOC. (Dairla)", "HISTÓRIA (Alexandre)", "LOGÍSTICA (Jarbas)", "APROF MATEMÁTICA (Sena)", "LOGÍSTICA (Jarbas)"],
+        "Quinta": ["MATEMÁTICA (Zenaide)", "QUÍMICA (Marciano)", "APROF NATUREZA (João)", "MATEMÁTICA (Sena)", "LEITURA E PROD. (Jandira)", "BIOLOGIA (Diogo)", "SOCIOLOGIA (Alexandre)", "CORPO, ARTE E MOV. (Jilvan)", "LETRAMENTO LINGUÍSTICO (Alexandre)"],
+        "Sexta": ["PROJETO TRAB. SOC. (João)", "ED FÍSICA (João)", "DAIRLA (Dairla)", "ESTUDO ORIENTADO (Jandira)", "MATEMÁTICA (Sena)", "CULTURA DIGITAL (Jilvan)", "PROJETO TRAB. SOC. (Pablio)", "APROF MATEMÁTICA (Marciano)", "INGLÊS (Pablio)"]
+      },
+      "2C": {
+        "Segunda": ["FISICA (Joao)", "CORPO, ARTE E MOV. (Severino)", "Aprof. Lingua. (Joao)", "DIOGO (Diogo)", "PABLO (Pablo)", "LOGÍSTICA (Jarbas)", "LOGÍSTICA (Jarbas)", "ED FÍSICA (Sena)", "FILOSOFIA (Paulo)"],
+        "Terça": ["INVESTIGAÇÃO E MODEL. (Alexandre)", "ZENAIDE (Zenaide)", "LÍNGUA PORTUGUESA (Marta)", "QUÍMICA (Pablio)", "PAULO (Paulo)", "CULTURA DIGITAL (Marciano)", "LETRAMENTO LING. (Pablio)", "MATEMÁTICA BÁSICA (Fabi)", "PROJETO TRAB. SOC. (Dairla)"],
+        "Quarta": ["INVESTIGAÇÃO E MODEL. (Jandira)", "PROJETO TRAB. SOC. (Alexandre)", "LEITURA E PROD. (FernanDo)", "ESTUDO ORIENTADO (Fabi)", "INGLÊS (Marta)", "TATIANE (Tatiane)", "PROJETO TRAB. SOC. (DaIrla)", "APROF NATUREZA (Alexandre)", "ED FÍSICA (Alexandre)"],
+        "Quinta": ["INVESTIGAÇÃO E MODEL. (Diogo)", "LÍNGUA PORTUGUESA (Fabian)", "LEITURA E PROD. (Jandira)", "ESTUDO ORIENTADO (Marciano)", "ARTE (Fabian)", "CULTURA DIGITAL (Marciano)", "QUÍMICA (Marciano)", "MATEMÁTICA BÁSICA (Diogo)", "QUÍMICA (Marciano)"],
+        "Sexta": ["FILOSOFIA (Diogo)", "HISTÓRIA (Paulo)", "MATEMÁTICA (Jandira)", "SEVERINO (Severino)", "LÍNGUA PORTUGUESA (Joao)", "INFORMÁTICA SENAC", "INFORMÁTICA SENAC", "FÍSICA (Severino)", "CORPO, ARTE E MOV. (João)"]
+      },
+      "3A": {
+        "Segunda": ["MATEMÁTICA (Fernando)", "QUÍMICA (Marta)", "BIOLOGIA (Diogo)", "ESTUDO ORIENTADO (Jandira)", "INVESTIGAÇÃO E MODEL. (Dairla)", "APROF LING. NAT. (Diogo)", "MATEMÁTICA BÁSICA (Paulo)", "LOGÍSTICA (Senac)", "LETRAMENTO LING. (Diogo)"],
+        "Terça": ["Aprof. Matemát. (Pablo)", "FÍSICA (Fernando)", "GEOGRAFIA (Fernando)", "INVESTIGAÇÃO E MODEL. (Fernando)", "QUÍMICA (Marta)", "LÍNGUA PORTUGUESA (Dairla)", "ESTUDO ORIENTADO (Jilvan)", "HISTÓRIA (Fernando)", "MATEMÁTICA (Dairla)"],
+        "Quarta": ["FISICA (Fernando)", "FÍSICA (Fabi)", "PROJETO TRAB. SOC. (Fabian)", "INGLÊS (Marta)", "LINGUA PORTUGUESA (Jandira)", "MATEMÁTICA (Fernando)", "APROF LING. NAT. (Tatiane)", "MATEMÁTICA (Sena)", "CULTURA DIGITAL (Jilvan)"],
+        "Quinta": ["LÍNGUA PORTUGUESA (Fernando)", "LÍNGUA PORTUGUESA (Fabian)", "SOCIOLOGIA (João)", "JANDIRA (Jandira)", "CULTURA DIGITAL (Tatiane)", "CULTURA DIGITAL (Diogo)", "APROF HUMANAS (Marciano)", "MATEMÁTICA (Fabian)", "QUÍMICA (Sena)"],
+        "Sexta": ["MATEMÁTICA (Sena)", "PROJETO TRAB. SOC. (Dairla)", "GEOGRAFIA (Pablio)", "ARTE (Jilvan)", "FÍSICA (Severino)", "FÍSICA (Severino)", "MATEMÁTICA BÁSICA (Fabian)", "APROF HUMANAS (Pablio)", "SOCIOLOGIA (Alexandre)"]
+      },
+      "3B": {
+        "Segunda": ["LETRAMENTO LING. (Jandira)", "ESTUDO ORIENTADO (Marciano)", "CORPO, ARTE E MOV. (Sena)", "LEITURA E PROD. (Jandira)", "LETRAMENTO LING. (Zenaide)", "CULTURA DIGITAL (Fabi)", "INGLÊS (Jarbas)", "MATEMÁTICA (Fabi)", "APROF HUMANAS (Jilvan)"],
+        "Terça": ["LETRAMENTO HUMANAS (Zenaide)", "CORPO, ARTE E MOV. (Severino)", "LETRAMENTO LING. (Jilvan)", "GEOGRAFIA (Zenaide)", "APROF LINGUAGENS (Jandira)", "MATEMÁTICA (Marciano)", "BIOLOGIA (Fabi)", "ARTE (Diogo)", "Aprof. Matemát. (Sena)"],
+        "Quarta": ["LÍNGUA PORTUGUESA (Jandira)", "MATEMÁTICA BÁSICA (Sena)", "Aprof. Matemát. (Dairla)", "BIOLOGIA (Tatiane)", "MATEMÁTICA (Fabian)", "LÍNGUA PORTUGUESA (Paulo)", "HISTÓRIA (Alexandre)", "APROF MATEMÁTICA (Alexandre)", "QUÍMICA (Marciano)"],
+        "Quinta": ["HISTÓRIA (Diogo)", "MATEMÁTICA (Sena)", "ESTUDO ORIENTADO (Paulo)", "APROF NATUREZA (Diogo)", "APROF HUMANAS (Paulo)", "ESTUDO ORIENTADO (Jandira)", "BIOLOGIA (Tatiane)", "FILOSOFIA (Paulo)", "LETRAMENTO LING. (Marta)"],
+        "Sexta": ["LÍNGUA PORTUGUESA (Jandira)", "APROF HUMANAS (Joao)", "CULTURA DIGITAL (Marciano)", "LÍNGUA PORTUGUESA (Fernando)", "LÍNGUA PORTUGUESA (Joao)", "LETRAMENTO LING. (Jilvan)", "INGLÊS (Pablio)", "BIOLOGIA (Dairla)", "HISTÓRIA (Marta)"]
+      }
+    };
+
+    const periodos = [
+      "1ª Aula M (07:30 - 08:20)",
+      "2ª Aula M (08:20 - 09:10)",
+      "3ª Aula M (09:10 - 10:00)",
+      "4ª Aula M (10:20 - 11:10)",
+      "5ª Aula M (11:10 - 12:00)",
+      "1ª Aula T (13:00 - 13:50)",
+      "2ª Aula T (13:50 - 14:40)",
+      "3ª Aula T (15:00 - 15:50)",
+      "4ª Aula T (15:50 - 16:40)"
+    ];
+
+    function entrarNoPortal() {
+      document.getElementById('tela-capa').classList.remove('ativa');
+      document.getElementById('tela-principal').classList.add('ativa');
+      carregarHorario('1A', document.querySelector('.btn-turma'));
+    }
+
+    function mostrarAba(idAba) {
+      document.querySelectorAll('.painel').forEach(p => p.classList.remove('ativo'));
+      document.querySelectorAll('.btn-aba').forEach(b => b.classList.remove('active'));
+
+      document.getElementById(idAba).classList.add('ativo');
+      document.querySelector(`[data-aba="${idAba}"]`).classList.add('active');
+    }
+
+    function carregarHorario(turmaKey, el) {
+      document.querySelectorAll('.btn-turma').forEach(b => b.classList.remove('ativo'));
+      if(el) el.classList.add('ativo');
+
+      const container = document.getElementById('grade-semana');
+      const turmaData = dadosHorarios[turmaKey];
+
+      let html = '';
+      const dias = ["Segunda", "Terça", "Quarta", "Quinta", "Sexta"];
+
+      dias.forEach(dia => {
+        html += `
+          <div class="bloco-dia">
+            <h3>${dia}-feira</h3>
+            <ul>
+        `;
+        turmaData[dia].forEach((materia, idx) => {
+          html += `
+            <li>
+              <strong>${periodos[idx]}</strong>
+              <span>${materia}</span>
+            </li>
+          `;
+        });
+        html += `
+            </ul>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+    }
+  </script>
+</body>
+</html>
