@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#4534d6" />
+  <meta name="description" content="Cronograma interativo da Atividade de Sensibilização do Labui: etapas, horários, condução, output e acompanhamento do progresso." />
+  <title>Cronograma · Atividade de Sensibilização</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- ================= CABEÇALHO ================= -->
+  <header class="hero">
+    <div class="hero__inner">
+      <p class="hero__eyebrow">Labui · Atividade de sensibilização</p>
+      <h1 class="hero__title">Cronograma da jornada</h1>
+      <p class="hero__lead">
+        Toque em uma etapa para ver a condução e o output esperado. Marque o check
+        conforme cada etapa for concluída — o progresso fica salvo no seu navegador.
+      </p>
+
+      <div class="progress">
+        <div class="progress__top">
+          <span id="progressLabel">0 de 11 etapas concluídas</span>
+          <span id="progressPercent">0%</span>
+        </div>
+        <div class="progress__track"
+             id="progressTrack"
+             role="progressbar"
+             aria-label="Etapas concluídas"
+             aria-valuemin="0"
+             aria-valuemax="100"
+             aria-valuenow="0">
+          <div class="progress__bar" id="progressBar"></div>
+        </div>
+      </div>
+
+      <div class="toolbar">
+        <button type="button" id="expandAllBtn" class="btn">Expandir tudo</button>
+        <button type="button" id="collapseAllBtn" class="btn">Recolher tudo</button>
+        <button type="button" id="resetBtn" class="btn btn--ghost">Reiniciar</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= LINHA DO TEMPO ================= -->
+  <main class="container">
+    <ol class="timeline" id="timeline">
+
+      <!-- 1 -->
+      <li class="step" data-id="acolhimento" data-time="13:10">
+        <div class="step__card">
+          <div class="step__head">
+            <button type="button" class="step__toggle" aria-expanded="false" aria-controls="panel-acolhimento">
+              <span class="step__time">13h10</span>
+              <span class="step__title">Acolhimento e identificação</span>
+              <span class="step__badge" hidden></span>
+              <span class="step__chevron" aria-hidden="true"></span>
+            </button>
+            <label class="step__check">
+              <input type="checkbox" aria-label="Marcar a etapa Acolhimento e identificação como concluída" />
+              <span class="step__checkmark" aria-hidden="true"></span>
+            </label>
+          </div>
+          <div class="step__panel" id="panel-acolhimento" aria-hidden="true">
+            <div class="step__panel-inner">
+              <div class="step__body">
+                <div class="block">
+                  <h3 class="block__label">Condução</h3>
+                  <p>Receber os estudantes, preencher os crachás e apresentar brevemente o coletivo. Evitar uma introdução longa.</p>
+                </div>
+                <div class="block block--output">
+                  <h3 class="block__label">Output</h3>
+                  <p>Estudantes acolhidos e identificados.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <!-- 2 -->
+      <li class="step" data-id="formacao-grupos" data-time="13:20">
+        <div class="step__card">
+          <div class="step__head">
+            <button type="button" class="step__toggle" aria-expanded="false" aria-controls="panel-formacao-grupos">
+              <span class="step__time">13h20</span>
+              <span class="step__title">Formação dos grupos</span>
+              <span class="step__badge" hidden></span>
+              <span class="step__chevron" aria-hidden="true"></span>
+            </button>
+            <label class="step__check">
+              <input type="checkbox" aria-label="Marcar a etapa Formação dos grupos como concluída" />
+              <span class="step__checkmark" aria-hidden="true"></span>
+            </label>
+          </div>
+          <div class="step__panel" id="panel-formacao-grupos" aria-hidden="true">
+            <div class="step__panel-inner">
+              <div class="step__body">
+                <div class="block">
+                  <h3 class="block__label">Condução</h3>
+                  <p>Realizar uma rodada breve e leve. Artista, mão na massa ou apresentador. O coletivo também participa.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <!-- 3 -->
+      <li class="step" data-id="oportunidades" data-time="13:30">
+        <div class="step__card">
+          <div class="step__head">
+            <button type="button" class="step__toggle" aria-expanded="false" aria-controls="panel-oportunidades">
+              <span class="step__time">13h30</span>
+              <span class="step__title">Elencar oportunidades</span>
+              <span class="step__badge" hidden></span>
+              <span class="step__chevron" aria-hidden="true"></span>
+            </button>
+            <label class="step__check">
+              <input type="checkbox" aria-label="Marcar a etapa Elencar oportunidades como concluída" />
+              <span class="step__checkmark" aria-hidden="true"></span>
+            </label>
+          </div>
+          <div class="step__panel" id="panel-oportunidades" aria-hidden="true">
+            <div class="step__panel-inner">
+              <div class="step__body">
+                <div class="block">
+                  <h3 class="block__label">Condução</h3>
+                  <p>Reunir os grupos e apresentar a pergunta disparadora: “O que, no cotidiano da escola ou da comunidade, poderia funcionar de uma maneira melhor?” Cada grupo escolhe uma oportunidade para investigar.</p>
+                </div>
+                <div class="block block--output">
+                  <h3 class="block__label">Output</h3>
+                  <p>Uma oportunidade inicial por grupo.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <!-- 4 -->
+      <li class="step" data-id="investigacao" data-time="13:40">
+        <div class="step__card">
+          <div class="step__head">
+            <button type="button" class="step__toggle" aria-expanded="false" aria-controls="panel-investigacao">
+              <span class="step__time">13h40</span>
+              <span class="step__title">Investigação da oportunidade</span>
+              <span class="step__badge" hidden></span>
+              <span class="step__chevron" aria-hidden="true"></span>
+            </button>
+            <label class="step__check">
+              <input type="checkbox" aria-label="Marcar a etapa Investigação da oportunidade como concluída" />
+              <span class="step__checkmark" aria-hidden="true"></span>
+            </label>
+          </div>
+          <div class="step__panel" id="panel-investigacao" aria-hidden="true">
+            <div class="step__panel-inner">
+              <div class="step__body">
+                <div class="block">
+                  <h3 class="block__label">Condução</h3>
+                  <p>Os grupos circulam pelos ambientes, conversam com pessoas e observam a situação escolhida. Incentivar registros por escrito, desenhos ou fotos, quando permitido.</p>
+                </div>
+                <div class="block block--output">
+                  <h3 class="block__label">Output</h3>
+                  <p>Registros, exemplos e percepções sobre a oportunidade.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <!-- 5 -->
+      <li class="step" data-id="organizacao" data-time="14:00">
+        <div class="step__card">
+          <div class="step__head">
+            <button type="button" class="step__toggle" aria-expanded="false" aria-controls="panel-organizacao">
+              <span class="step__time">14h00</span>
+              <span class="step__title">Organização das descobertas</span>
+              <span class="step__badge" hidden></span>
+              <span class="step__chevron" aria-hidden="true"></span>
+            </button>
+            <label class="step__check">
+              <input type="checkbox" aria-label="Marcar a etapa Organização das descobertas como concluída" />
+              <span class="step__checkmark" aria-hidden="true"></span>
+            </label>
+          </div>
+          <div class="step__panel" id="panel-organizacao" aria-hidden="true">
+            <div class="step__panel-inner">
+              <div class="step__body">
+                <div class="block">
+                  <h3 class="block__label">Condução</h3>
+                  <p>De volta ao espaço de trabalho, os grupos organizam o que encontraram: o que acontece, quem é afetado, por que isso importa e o que chamou atenção.</p>
+                </div>
+                <div class="block block--output">
+                  <h3 class="block__label">Output</h3>
+                  <p>Síntese da investigação.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <!-- 6 -->
+      <li class="step" data-id="pergunta" data-time="14:20">
+        <div class="step__card">
+          <div class="step__head">
+            <button type="button" class="step__toggle" aria-expanded="false" aria-controls="panel-pergunta">
+              <span class="step__time">14h20</span>
+              <span class="step__title">Da descoberta à pergunta</span>
+              <span class="step__badge" hidden></span>
+              <span class="step__chevron" aria-hidden="true"></span>
+            </button>
+            <label class="step__check">
+              <input type="checkbox" aria-label="Marcar a etapa Da descoberta à pergunta como concluída" />
+              <span class="step__checkmark" aria-hidden="true"></span>
+            </label>
+          </div>
+          <div class="step__panel" id="panel-pergunta" aria-hidden="true">
+            <div class="step__panel-inner">
+              <div class="step__body">
+                <div class="block">
+                  <h3 class="block__label">Condução</h3>
+                  <p>Ajudar os grupos a transformar a descoberta em uma pergunta: “Como poderíamos…?”</p>
+                </div>
+                <div class="block block--output">
+                  <h3 class="block__label">Output</h3>
+                  <p>Uma pergunta orientadora por grupo.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <!-- 7 -->
+      <li class="step" data-id="ideias" data-time="14:30">
+        <div class="step__card">
+          <div class="step__head">
+            <button type="button" class="step__toggle" aria-expanded="false" aria-controls="panel-ideias">
+              <span class="step__time">14h30</span>
+              <span class="step__title">Geração e escolha de ideias</span>
+              <span class="step__badge" hidden></span>
+              <span class="step__chevron" aria-hidden="true"></span>
+            </button>
+            <label class="step__check">
+              <input type="checkbox" aria-label="Marcar a etapa Geração e escolha de ideias como concluída" />
+              <span class="step__checkmark" aria-hidden="true"></span>
+            </label>
+          </div>
+          <div class="step__panel" id="panel-ideias" aria-hidden="true">
+            <div class="step__panel-inner">
+              <div class="step__body">
+                <div class="block">
+                  <h3 class="block__label">Condução</h3>
+                  <p>Cada participante propõe possíveis respostas. O grupo combina, desenvolve e escolhe uma ideia considerando relevância, interesse e possibilidade de prototipação.</p>
+                </div>
+                <div class="block block--output">
+                  <h3 class="block__label">Output</h3>
+                  <p>Uma proposta escolhida e descrita.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <!-- 8 — intervalo (etapa sem painel) -->
+      <li class="step step--break" data-id="intervalo" data-time="14:40">
+        <div class="step__card">
+          <div class="step__head">
+            <div class="step__toggle step__toggle--static">
+              <span class="step__time">14h40</span>
+              <span class="step__title">Intervalo</span>
+            </div>
+            <label class="step__check">
+              <input type="checkbox" aria-label="Marcar o intervalo como concluído" />
+              <span class="step__checkmark" aria-hidden="true"></span>
+            </label>
+          </div>
+        </div>
+      </li>
+
+      <!-- 9 -->
+      <li class="step" data-id="prototipagem" data-time="15:00">
+        <div class="step__card">
+          <div class="step__head">
+            <button type="button" class="step__toggle" aria-expanded="false" aria-controls="panel-prototipagem">
+              <span class="step__time">15h00</span>
+              <span class="step__title">Prototipagem</span>
+              <span class="step__badge" hidden></span>
+              <span class="step__chevron" aria-hidden="true"></span>
+            </button>
+            <label class="step__check">
+              <input type="checkbox" aria-label="Marcar a etapa Prototipagem como concluída" />
+              <span class="step__checkmark" aria-hidden="true"></span>
+            </label>
+          </div>
+          <div class="step__panel" id="panel-prototipagem" aria-hidden="true">
+            <div class="step__panel-inner">
+              <div class="step__body">
+                <div class="block">
+                  <h3 class="block__label">Condução</h3>
+                  <p>João apresenta os conceitos básicos: o que é um protótipo, o que será possível construir, como utilizar o GitHub e como trabalhar com o modelo de prompts. Em seguida, cada grupo cria uma primeira versão do site ou artefato digital. Os facilitadores ajudam com perguntas e suporte técnico, preservando as decisões dos estudantes.</p>
+                </div>
+                <div class="block block--output">
+                  <h3 class="block__label">Output</h3>
+                  <p>Um protótipo simples, mas demonstrável.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <!-- 10 -->
+      <li class="step" data-id="compartilhamento" data-time="16:00">
+        <div class="step__card">
+          <div class="step__head">
+            <button type="button" class="step__toggle" aria-expanded="false" aria-controls="panel-compartilhamento">
+              <span class="step__time">16h00</span>
+              <span class="step__title">Compartilhamento</span>
+              <span class="step__badge" hidden></span>
+              <span class="step__chevron" aria-hidden="true"></span>
+            </button>
+            <label class="step__check">
+              <input type="checkbox" aria-label="Marcar a etapa Compartilhamento como concluída" />
+              <span class="step__checkmark" aria-hidden="true"></span>
+            </label>
+          </div>
+          <div class="step__panel" id="panel-compartilhamento" aria-hidden="true">
+            <div class="step__panel-inner">
+              <div class="step__body">
+                <div class="block">
+                  <h3 class="block__label">Condução</h3>
+                  <p>Cada grupo apresenta por até 3 minutos. Após cada apresentação, abrir espaço para uma pergunta ou comentário.</p>
+                </div>
+                <div class="block block--output">
+                  <h3 class="block__label">Output</h3>
+                  <p>Propostas compartilhadas e reconhecidas.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <!-- 11 -->
+      <li class="step" data-id="encerramento" data-time="16:20">
+        <div class="step__card">
+          <div class="step__head">
+            <button type="button" class="step__toggle" aria-expanded="false" aria-controls="panel-encerramento">
+              <span class="step__time">16h20</span>
+              <span class="step__title">Encerramento</span>
+              <span class="step__badge" hidden></span>
+              <span class="step__chevron" aria-hidden="true"></span>
+            </button>
+            <label class="step__check">
+              <input type="checkbox" aria-label="Marcar a etapa Encerramento como concluída" />
+              <span class="step__checkmark" aria-hidden="true"></span>
+            </label>
+          </div>
+          <div class="step__panel" id="panel-encerramento" aria-hidden="true">
+            <div class="step__panel-inner">
+              <div class="step__body">
+                <div class="block">
+                  <h3 class="block__label">Condução</h3>
+                  <p>Encerramento da atividade com o coletivo.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+
+    </ol>
+
+    <p class="note">Cronograma sujeito a ajustes ao longo da jornada.</p>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
